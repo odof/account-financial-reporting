@@ -418,6 +418,7 @@ FROM
             LEFT JOIN
                 account_move_line ml_past
                     ON ml.balance < 0 AND pr.debit_move_id = ml_past.id
+                    AND ml_past.partner_id = ml.partner_id
                     AND ml_past.date <= %s
             """
         else:
@@ -428,6 +429,7 @@ FROM
             LEFT JOIN
                 account_move_line ml_past
                     ON ml.balance > 0 AND pr.credit_move_id = ml_past.id
+                    AND ml_past.partner_id = ml.partner_id
                     AND ml_past.date <= %s
         """
         sub_query += """
