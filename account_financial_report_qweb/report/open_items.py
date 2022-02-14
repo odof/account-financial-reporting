@@ -436,7 +436,8 @@ FROM
             LEFT JOIN account_full_reconcile afr ON afr.id = ml.full_reconcile_id
             WHERE
                 ra.report_id = %s
-            AND ml.full_reconcile_id IS NULL OR afr.create_date >= %s
+            AND ml.full_reconcile_id IS NULL
+              OR EXISTS(SELECT 1 FROM account_move_line WHERE full_reconcile_id = afr.id AND date >= %s)
             GROUP BY
                 ml.id,
                 ml.balance,
